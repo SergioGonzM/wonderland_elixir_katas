@@ -77,7 +77,26 @@ defmodule AlphabetCipher.Coder do
   end
 
   def decode(keyword, message) do
-    "decodeme"
+    msg = message |> String.downcase() |> String.split() |> Enum.join() #zowukcd
+    key = keyword |> String.downcase() |> String.split() |> Enum.join() |> String.duplicate(div(String.length(msg),String.length(keyword))+1) |> String.slice((0..String.length(message)-1)) |> String.graphemes()
+
+    msg_n_key = Enum.zip(key, msg |> String.graphemes())
+    
+    decoded_message = msg_n_key |> Enum.with_index() |> Enum.map(fn ({tuple, index}) -> 
+    k_1 = elem(tuple, 0)
+    m_1 = elem(tuple, 1)
+
+    row = alphabet_rows[String.to_atom(k_1)]
+    col = Enum.find_index(row, fn x -> x == m_1 end)
+
+    decode_letter = alphabet_cols() |> Enum.find(fn {_, value} -> value == col end) |> elem(0)
+    
+    Atom.to_string(decode_letter) end)
+
+    decoded_message |> Enum.join() 
+    IO.puts("Decoded message: #{decoded_message}")
+    
+
   end
 
   def decipher(cipher, message) do
