@@ -95,12 +95,30 @@ defmodule AlphabetCipher.Coder do
 
     decoded_message |> Enum.join() 
     IO.puts("Decoded message: #{decoded_message}")
-    
-
+  
   end
 
   def decipher(cipher, message) do
-    "decypherme"
+    msg = message |> String.downcase() |> String.split() |> Enum.join() #zowukcd
+    cipher = cipher |> String.downcase() |> String.split() |> Enum.join() |> String.graphemes()
+
+    msg_n_key = Enum.zip(cipher, msg |> String.graphemes())
+    
+    decoded_message = msg_n_key |> Enum.with_index() |> Enum.map(fn ({tuple, index}) -> 
+    c_1 = elem(tuple, 0)
+    m_1 = elem(tuple, 1)
+
+    row = alphabet_rows[String.to_atom(m_1)]
+    col = Enum.find_index(row, fn x -> x == c_1 end)
+
+    decode_letter = alphabet_cols() |> Enum.find(fn {_, value} -> value == col end) |> elem(0)
+    
+    Atom.to_string(decode_letter) end)
+
+    a = decoded_message |> Enum.uniq |> Enum.join() 
+    IO.puts("Secret Word: #{a}")
+
+
   end
 
 end
