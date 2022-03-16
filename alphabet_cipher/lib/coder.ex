@@ -93,13 +93,13 @@ defmodule AlphabetCipher.Coder do
     
     Atom.to_string(decode_letter) end)
 
-    decoded_message |> Enum.join() 
-    IO.puts("Decoded message: #{decoded_message}")
+    a = decoded_message |> Enum.join() 
+    IO.puts("Decoded message: #{a}")
   
   end
 
   def decipher(cipher, message) do
-    msg = message |> String.downcase() |> String.split() |> Enum.join() #zowukcd
+    msg = message |> String.downcase() |> String.split() |> Enum.join() 
     cipher = cipher |> String.downcase() |> String.split() |> Enum.join() |> String.graphemes()
 
     msg_n_key = Enum.zip(cipher, msg |> String.graphemes())
@@ -115,7 +115,7 @@ defmodule AlphabetCipher.Coder do
     
     Atom.to_string(decode_letter) end)
 
-    a = decoded_message |> Enum.uniq |> Enum.join() 
+    a = decoded_message |> Enum.uniq |> Enum.join("") |> to_string()
     IO.puts("Secret Word: #{a}")
 
 
