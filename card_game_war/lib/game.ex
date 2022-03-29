@@ -9,8 +9,8 @@ defmodule CardGameWar.Game do
   end
  
   def cards do
-    for suit <- suits,
-        rank <- ranks do
+    for suit <- suits(),
+        rank <- ranks() do
       %Card{suit: suit, rank: rank} end
   end
 
